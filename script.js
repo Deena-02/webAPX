@@ -1,52 +1,83 @@
-// Form Validation
-document.getElementById('contactForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+// Quiz Data
+const questions = [
+  {
+    question: "What does HTML stand for?",
+    options: ["HyperText Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"],
+    answer: "HyperText Markup Language"
+  },
+  {
+    question: "Which language runs in a web browser?",
+    options: ["Java", "C", "Python", "JavaScript"],
+    answer: "JavaScript"
+  },
+  {
+    question: "What does CSS stand for?",
+    options: ["Creative Style Sheets", "Cascading Style Sheets", "Colorful Style Sheets"],
+    answer: "Cascading Style Sheets"
+  }
+];
 
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
-    const formMessage = document.getElementById('formMessage');
+let currentQuestion = 0;
+let score = 0;
 
-    if (!name || !email || !message) {
-        formMessage.textContent = "Please fill out all fields.";
-        return;
-    }
+// Elements
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const nextBtn = document.getElementById("next-btn");
+const resultEl = document.getElementById("result");
 
-    if (!validateEmail(email)) {
-        formMessage.textContent = "Please enter a valid email.";
-        return;
-    }
-
-    formMessage.textContent = "Form submitted successfully!";
-    formMessage.style.color = "green";
-    this.reset();
-});
-
-function validateEmail(email) {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
+function showQuestion() {
+  const q = questions[currentQuestion];
+  questionEl.textContent = q.question;
+  optionsEl.innerHTML = "";
+  q.options.forEach(option => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.onclick = () => checkAnswer(option);
+    optionsEl.appendChild(btn);
+  });
 }
 
-// Dynamic To-Do List
-const addTaskBtn = document.getElementById('addTaskBtn');
-const taskInput = document.getElementById('taskInput');
-const taskList = document.getElementById('taskList');
+function checkAnswer(selected) {
+  const correct = questions[currentQuestion].answer;
+  if (selected === correct) {
+    score++;
+  }
+  nextBtn.style.display = "block";
+}
 
-addTaskBtn.addEventListener('click', function() {
-    const taskText = taskInput.value.trim();
-    if (taskText === '') return;
+nextBtn.onclick = () => {
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    showQuestion();
+    nextBtn.style.display = "none";
+  } else {
+    questionEl.textContent = "Quiz Completed!";
+    optionsEl.innerHTML = "";
+    nextBtn.style.display = "none";
+    resultEl.textContent = Your score: ${score} / ${questions.length};
+  }
+};
 
-    const li = document.createElement('li');
-    li.textContent = taskText;
+// Initial display
+showQuestion();
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = "Delete";
-    deleteBtn.style.marginLeft = '10px';
-    deleteBtn.addEventListener('click', function() {
-        li.remove();
+// Joke API
+const jokeBtn = document.getElementById("get-joke");
+const jokeDisplay = document.getElementById("joke-display");
+
+jokeBtn.addEventListener("click", () => {
+  jokeDisplay.textContent = "Loading...";
+  fetch("https://icanhazdadjoke.com/", {
+    headers: {
+      Accept: "application/json"
+    }
+  })
+    .then(res => res.json())
+    .then(data => {
+      jokeDisplay.textContent = data.joke;
+    })
+    .catch(() => {
+      jokeDisplay.textContent = "Oops! Couldn't fetch a joke.";
     });
-
-    li.appendChild(deleteBtn);
-    taskList.appendChild(li);
-    taskInput.value = '';
 });

@@ -1,41 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intermediate HTML, CSS, and JS</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Responsive Quiz with Joke API</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="container">
+    <h1>Quiz Time!</h1>
+    <div id="quiz-container">
+      <p id="question"></p>
+      <div id="options"></div>
+      <button id="next-btn">Next</button>
+      <p id="result"></p>
+    </div>
 
-    <header>
-        <h1>My MINI Project</h1>
-        <nav>
-            <a href="#contact">Contact Form</a>
-            <a href="#todo">To-Do List</a>
-        </nav>
-    </header>
+    <hr/>
 
-    <main class="grid-container">
-        <section id="contact">
-            <h2>Contact Us</h2>
-            <form id="contactForm">
-                <input type="text" id="name" placeholder="Your Name" required>
-                <input type="email" id="email" placeholder="Your Email" required>
-                <textarea id="message" placeholder="Your Message" required></textarea>
-                <button type="submit">Submit</button>
-            </form>
-            <p id="formMessage"></p>
-        </section>
+    <div id="joke-section">
+      <h2>Need a Laugh?</h2>
+      <button id="get-joke">Get a Joke</button>
+      <p id="joke-display"></p>
+    </div>
+  </div>
 
-        <section id="todo">
-            <h2>Dynamic To-Do List</h2>
-            <input type="text" id="taskInput" placeholder="New Task">
-            <button id="addTaskBtn">Add Task</button>
-            <ul id="taskList"></ul>
-        </section>
-    </main>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
